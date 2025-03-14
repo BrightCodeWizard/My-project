@@ -1,0 +1,75 @@
+Emloyee DataBase
+
+CREATE DATABASE EmployeeDB;
+USE EmployeeDB;
+
+CREATE TABLE Departments (
+	DepartmentID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(100),
+    Location VARCHAR(100),
+    Manager INT Null 
+);
+
+CREATE TABLE Employee (
+	EmployeeID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(100),
+    Email VARCHAR(100) UNIQUE,
+    Phone VARCHAR(20),
+    ADDRESS TEXT,
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+CREATE TABLE Salaries (
+	SalaryID INT PRIMARY KEY AUTO_INCREMENT,
+    EmployeeID INT,
+    BasicPay DECIMAL(10,2),
+    Bonus DECIMAL(10, 2),
+    Deductions DECIMAL(10,2),
+    NetSalary DECIMAL(10,2) GENERATED ALWAYS AS (BasicPay + Bonus - Deductions) STORED,
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
+);
+
+
+CREATE TABLE Attendance (
+	AttendanceID INT PRIMARY KEY AUTO_INCREMENT,
+    EmployeeID INT,
+    Date DATE,
+    Status ENUM('Present', 'Absent','Leave'),
+    CheckInTime TIME,
+    CheckOutTime TIME,
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
+);
+
+CREATE TABLE Projects (
+	ProjectsID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(150),
+    StartDate DATE,
+    EndDate DATE,
+    Budget DECIMAL(12,2),
+    DepartmentID INT,
+    FOREIGN KEY (DepartmentID) REFERENCES Employee(DepartmentID)
+);
+CREATE TABLE Assignment (
+	SalaryID INT,
+    EmployeeID INT,
+    ProjectsID INT,
+    Role VARCHAR(100),
+    StartDate DATE,
+    EndDate DATE,
+    FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID),
+	FOREIGN KEY (ProjectsID) REFERENCES Projects(ProjectSID)
+);
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
