@@ -1,0 +1,26 @@
+
+customers Table:
+id	name	city
+1	Alice	New York
+2	Bob	London
+3	Charlie	Paris
+
+orders Table:
+order_id	customer_id	product
+101	1	Laptop
+102	2	Phone
+103	4	Tablet
+Question:
+Write a query to fetch the customer name and product they ordered using INNER JOIN.
+
+Answer
+SELECT customers.name, orders.product
+FROM customers
+INNER JOIN orders ON customers.id = orders.customer_id;
+
+
+Output:
+name	product
+Alice	Laptop
+Bob	Phone
+
