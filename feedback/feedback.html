@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            background-attachment: fixed;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.95));
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(0);
+            transition: all 0.3s ease;
+            color: #2d3436;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        h1 {
+            color: #764ba2;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(to right, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 10px;
+        }
+
+        h2 {
+            font-size: 1.4em;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-top: 40px;
+            margin-bottom: 25px;
+            text-align: left;
+            border-bottom: 2px solid rgba(118, 75, 162, 0.2);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .form-row > div {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #444;
+            font-weight: 600;
+            font-size: 0.95em;
+            transition: color 0.3s ease;
+        }
+
+        label:hover {
+            color: #667eea;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="file"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        textarea {
+            height: 150px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .rating {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+
+        .rating input[type="radio"] {
+            display: none;
+        }
+
+        .rating label {
+            cursor: pointer;
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .rating label:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .rating input[type="radio"]:checked + label {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            transform: scale(1.05);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            background-color: rgba(102, 126, 234, 0.05);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #667eea;
+        }
+
+        button {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .file-input {
+            margin-top: 8px;
+            padding: 10px;
+            border: 2px dashed #e0e0e0;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .file-input:hover {
+            border-color: #667eea;
+        }
+
+        .priority-select {
+            display: flex;
+            gap: 15px;
+        }
+
+        .priority-select label {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .priority-select label:hover {
+            border-color: #667eea;
+            color: #667eea;
+        }
+
+        .priority-select input[type="radio"] {
+            display: none;
+        }
+
+        .priority-select input[type="radio"]:checked + label {
+            background: linear-gradient(to right, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+
+        .help-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+       
+        button.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            border: 2px solid white;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        button.loading.active::after {
+            display: block;
+        }
+
+        @keyframes spin {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            100% { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .form-group.error input,
+        .form-group.error textarea,
+        .form-group.error select {
+            border-color: #ff4444;
+            animation: shake 0.3s ease-in-out;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 20px 10px;
+            }
+            
+            .container {
+                padding: 25px;
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .rating {
+                flex-wrap: wrap;
+            }
+            
+            .rating label {
+                min-width: 60px;
+                padding: 10px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Feedback</h1>
+        <form id="feedbackForm">                                                                                                            
+            <h2>Contact Information</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name*</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name*</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email Address*</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Optional">
+                </div>
+            </div>
+
+            <h2>Feedback Details</h2>
+            <div class="form-group">
+                <label for="category">Feedback Category*</label>
+                <select id="category" name="category" required>
+                    <option value="">Select a category</option>
+                    <option value="product">Product Feedback</option>
+                    <option value="service">Service Experience</option>
+                    <option value="bug">Bug Report</option>
+                    <option value="feature">Feature Request</option>
+                    <option value="support">Technical Support</option>
+                    <option value="billing">Billing Issue</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Priority Level*</label>
+                <div class="priority-select">
+                    <input type="radio" id="low" name="priority" value="low" required>
+                    <label for="low">Low</label>
+                    <input type="radio" id="medium" name="priority" value="medium">
+                    <label for="medium">Medium</label>
+                    <input type="radio" id="high" name="priority" value="high">
+                    <label for="high">High</label>
+                    <input type="radio" id="critical" name="priority" value="critical">
+                    <label for="critical">Critical</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Overall Satisfaction*</label>
+                <div class="rating">
+                    <input type="radio" id="rating1" name="rating" value="1" required>
+                    <label for="rating1">1</label>
+                    <input type="radio" id="rating2" name="rating" value="2">
+                    <label for="rating2">2</label>
+                    <input type="radio" id="rating3" name="rating" value="3">
+                    <label for="rating3">3</label>
+                    <input type="radio" id="rating4" name="rating" value="4">
+                    <label for="rating4">4</label>
+                    <input type="radio" id="rating5" name="rating" value="5">
+                    <label for="rating5">5</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Areas of Improvement (Select all that apply)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="usability" name="improvements[]" value="usability">
+                        <label for="usability">Usability</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="performance" name="improvements[]" value="performance">
+                        <label for="performance">Performance</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="features" name="improvements[]" value="features">
+                        <label for="features">Features</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="documentation" name="improvements[]" value="documentation">
+                        <label for="documentation">Documentation</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="support" name="improvements[]" value="support">
+                        <label for="support">Support</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pricing" name="improvements[]" value="pricing">
+                        <label for="pricing">Pricing</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="subject">Subject/Title*</label>
+                <input type="text" id="subject" name="subject" required placeholder="Brief summary of your feedback">
+            </div>
+
+            <div class="form-group">
+                <label for="message">Detailed Feedback*</label>
+                <textarea id="message" name="message" required placeholder="Please provide as much detail as possible..."></textarea>
+                <div class="help-text">Include steps to reproduce if reporting a bug, or specific examples if suggesting improvements.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="impact">Business Impact</label>
+                <textarea id="impact" name="impact" placeholder="How does this issue affect your business operations? (Optional)"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="attachments">Attachments</label>
+                <input type="file" id="attachments" name="attachments" multiple class="file-input">
+                <div class="help-text">Upload screenshots, documents, or other relevant files (Max size: 10MB per file)</div>
+            </div>
+
+            <button type="submit">Submit Feedback</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+
+            const formData = new FormData(this);
+        
+            console.log('Form submitted with the following data:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
+            
+            alert('Thank you for your detailed feedback! We will review it carefully.');
+            this.reset();
+        });
+    </script>
+</body>
+</html>
